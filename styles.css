@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: hsl(48, 48%, 88%);
+    color: hsl(120, 23%, 6%);
+    font-family: monospace;
+}
+
+h1 {
+    color: hsl(96, 12%, 84%);
+    text-shadow: 2px 2px 4px #000000;
+}
+
+#stock {
+    color: hsl(0, 32%, 29%);
+}
+
+#revenue-goal {
+    color: hsl(229, 82%, 17%);
+}
+
+#revenue-now {
+}
+
+#tvs {
+}
+
+#btn-0, #btn-1, #btn-2, #btn-3 {
+    border-radius: 5px;
+}
+
+.btn {
+    font-family: monospace;
+    background-color: hsl(171, 29%, 28%);
+    color: hsl(96, 12%, 84%);
+    width: 125px;
+    box-shadow: 0 4px 8px 0 slategray;
+}
+
+.btn:hover {
+    background-color: hsl(171, 29%, 30%);
+    color: hsl(96, 12%, 94%)
+}
+
+.btn:active {
+    opacity: 90%;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container * {
+    padding: 10px;
+    margin: 8px;
+    border-style: hidden;
+    border-radius: 30px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 75px 200px 250px auto 75px;
+    grid-template-areas:
+        "A A A A A"
+        "C C C B B"
+        "C C C D D"
+        "C C C . ."
+        "E E E E E";
+    padding: 8px;
+}
+
+.header {
+    background-color: hsl(202, 23%, 47%);
+    grid-area: A;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-numbers {
+    background-color: hsl(13, 29%, 59%);
+    grid-area: B;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.tv-types {
+    background-color: hsl(202, 23%, 67%);
+    grid-area: D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.all-tvs {
+    background-color: hsl(96, 12%, 84%);
+    grid-area: C;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.footer {
+    background-color: hsl(229, 82%, 17%);
+    color: hsl(96, 12%, 84%);
+    grid-area: E;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

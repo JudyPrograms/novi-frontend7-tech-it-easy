@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Tech It Easy Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<div class="container">
+    <div class="header"><h1>Tech-it-Easy | Financial Dashboard</h1></div>
+    <div class="main-numbers">
+        <h2>
+            <p>Voorraad: <span id="stock"> getal = totaal aantal tv's nog op voorraad</span> producten</p>
+            <p>Doelomzet: <span id="revenue-goal"> bedrag = opbrengst bij verkoop alle voorraad</span></p>
+            <p>Huidige omzet: <span id="revenue-now"> bedrag = opbrengst bij verkoop alle voorraad</span></p>
+        </h2>
+    </div>
+    <div class="tv-types">
+        <h3>Twee willekeurige TV-Types:</h3>
+        <p id="tv1"> = willekeurige tv 1</p>
+        <p id="tv2"> = willekeurige tv 2</p>
+    </div>
+    <div class="all-tvs">
+        <div class="buttons">
+            <button class="btn" id="btn-0" onclick="getTvInfos(inventory)">Show All</button>
+            <button class="btn" id="btn-1" onclick="getObjectsSortedbyPrice(inventory)">Sort Prices</button>
+            <button class="btn" id="btn-2" onclick="getAmbilightObjects(inventory)">Ambilight</button>
+            <button class="btn" id="btn-3" onclick="getSoldOutObjects(inventory)">Sold Out</button>
+        </div>
+        <h3>Assortiment TV's</h3>
+        <p id="tvs"> = alle tvs</p>
+    </div>
+    <div class="footer">
+        <h4>Copyright © 2021 JudyPrograms.io | All Rights Reserved | Web Design by Judith Kats</h4>
+    </div>
+</div>
+<script src="main.js"></script>
 </body>
 </html>
