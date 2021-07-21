@@ -161,3 +161,168 @@ const inventory = [
     sold: 8,
   },
 ];
+
+// Om de eerste keer dat de pagina laadt de tvInfos weer te kunnen geven:
+getCompleteTvInfosString(inventory)
+
+
+// Opdracht 1a: Hoeveel exemplaren moeten we nog verkopen? Schrijf een functie die dit berekent.
+
+// const allTvsStock = inventory.map((tv) => {
+//   return tv.originalStock - tv.sold
+// })
+//
+// let totalStock = 0
+// for (let i = 0; i < allTvsStock.length; i++) {
+//   totalStock += allTvsStock[i]
+// }
+
+let totalStock = 0
+for (const tv of inventory) {
+  const stock = tv.originalStock - tv.sold
+  totalStock += stock
+}
+
+// Test:
+// console.log(totalStock)
+
+
+// Opdracht 1b: Zorg ervoor dat dit aantal in het rood wordt weergegeven op de pagina
+document.getElementById("stock").textContent = totalStock
+
+// Opdracht 2a: Gebruik een array-methode om een array te maken met alle tv-type namen.
+let allTvTypes = []
+for (const tv of inventory) {
+  const type = tv.type
+  allTvTypes.push(type)
+}
+
+// Test:
+// console.log(allTvTypes)
+
+// Opdracht 2b: Gebruik een array-methode om alle tv's te verzamelen (de hele objecten) die volledig uitverkocht zijn.
+function getSoldOutObjects (objectList) {
+  const tvsSoldOut = objectList.filter((tv) => {
+    return (tv.originalStock === tv.sold)
+  })
+  const tvInfos = getCompleteTvInfosString(tvsSoldOut)
+
+  document.getElementById("tvs").innerHTML = tvInfos
+
+  return tvInfos
+}
+
+// Test:
+// console.log(getSoldOutObjects(inventory))
+
+// Opdracht 2c: Gebruik een array-methode om alle tv's te verzamelen (de hele objecten) die over AmbiLight beschikken.
+function getAmbilightObjects (objectList) {
+  const tvsAmbi = objectList.filter((tv) => {
+    return (tv.options.ambiLight === true)
+  })
+  const tvInfos = getCompleteTvInfosString(tvsAmbi)
+
+  document.getElementById("tvs").innerHTML = tvInfos
+
+  return tvInfos
+}
+
+// Test:
+// console.log(getAmbilightObjects(inventory))
+
+// Opdracht 2d: Schrijf een functie die alle tv's van laagste naar hoogste prijs sorteert.
+function getObjectsSortedbyPrice (objectList) {
+  const sortedList =  objectList.sort((a, b) => {
+    return a.price - b.price
+  })
+
+  const tvInfos = getCompleteTvInfosString(sortedList)
+
+  document.getElementById("tvs").innerHTML = tvInfos
+
+  return tvInfos
+}
+
+// Test:
+// console.log(getObjectsSortedbyPrice(inventory))
+
+// Opdracht 3a: Wat is onze doel-opbrengst? Bereken wat de totale opbrengst is, als we alle exemplaren van ieder type
+// zouden verkopen. Geef dit in het blauw weer op de pagina.
+let totalExpectedRevenue = 0
+for (const tv of inventory) {
+  totalExpectedRevenue += tv.price * ( tv.originalStock - tv.sold)
+}
+document.getElementById("revenue-goal").textContent = totalExpectedRevenue.toLocaleString("nl-NL", {
+  style: 'currency',
+  currency: 'EUR'
+})
+
+// Opdracht 3b: Hoeveel hebben we tot nu toe verdient? Bereken hoeveel we tot nu toe verdient hebben met het aantal
+// verkochte tv's. Geef dit weer in het groen weer op de pagi
+let totalCurrentRevenue = 0
+for (const tv of inventory) {
+  totalCurrentRevenue += tv.price * tv.sold
+}
+
+document.getElementById("revenue-now").textContent = totalCurrentRevenue.toLocaleString("nl-NL", {
+  style: 'currency',
+  currency: 'EUR'
+})
+
+// Geef de type-namen van twee tv's weer op de pagina. Welke tv's dat precies zijn, maakt niet zoveel uit. Voor nu
+// betekent dit dat je het appenden van de nodes twee keer moet uitschrijven, dat is niet erg!
+document.getElementById("tv1").textContent = inventory[0].type
+document.getElementById("tv2").textContent = inventory[1].type
+
+// Opdracht 5a: Zorg ervoor dat er een string wordt gegenereerd voor de naam van een tv. Maak een functie die één
+// tv-object als parameter verwacht en de naam op de volgende manier samenvoegt: [merk] [type] - [naam] zoals
+// Philips 43PUS6504/12 - 4K TV of NIKKEI NH3216SMART - HD smart TV. Zorg ervoor dat je deze functie voor iedere tv
+// zou kunnen gebruiken.
+function getTvNameString (tvObject) {
+  return `${tvObject.brand} ${tvObject.type} - ${tvObject.name}`
+}
+
+// Opdracht 5b: Zorg ervoor dat de prijs van een tv netjes geformat wordt. Maak een functie die één tv-prijs als
+// parameter verwacht (zoals 379) en daar de volgende string van maakt: €379,-. Zorg ervoor dat je deze functie voor
+// iedere tv zou kunnen gebruiken.
+function getTvPriceString (price) {
+  return `€${price},-`
+}
+
+// Opdracht 5c: Zorg ervoor dat er een string wordt gegenereerd voor alle beschikbare schermgroottes van één tv in zowel
+// inches als cm Maak een functie die één screen-sizes array verwacht en de groottes op de volgende manier samenvoegt:
+// [schermgrootte] inches ([schermgrootte omgerekend]cm) | [schermgrootte] inches ([schermgrootte omgerekend]cm) etc.
+// Dus een input van [32] geeft 32 inch (81 cm) en een input van [43, 50, 55, 58] geeft
+// 43 inch (109 cm) | 50 inch (127 cm) | 58 inch (147 cm). Zorg ervoor dat je deze functie voor iedere tv zou kunnen
+// gebruiken, zowel voor tv's met maar één schermgrootte als met tientallen schermgroottes.
+
+function getTvSizeString (sizes) {
+  const inchToCm = 0.39370
+  let sizeString = ``
+  for (let i = 0; i < sizes.length; i++) {
+    const cmSize = Math.round(sizes[i]/inchToCm)
+    sizeString += `${sizes[i]} inch (${cmSize} cm) | `
+  }
+  return sizeString.slice(0, sizeString.length-3)
+}
+
+// Opdracht 5e: Schrijf een functie die ALLE tv's weergeeft op de pagina zoals in het voorbeeld. Dit wil je natuurlijk
+// niet acht keer opnieuw schrijven, want nu zijn het 8 tv's, maar in de toekomst misschien wel 200! Gebruik in deze
+// functie de voorgaande functies die je hebt geschreven, om onderdelen van de data te formatten. Deze
+// "tv-generator-functie" verwacht één parameter: de volledige array met tv-objecten. Vergeet 'm niet aan te roepen!
+function getCompleteTvInfosString (tvObjects) {
+  let tvInfos = ""
+  for (const tv of tvObjects) {
+    const name = getTvNameString(tv)
+    const price = getTvPriceString(tv.price)
+    const size = getTvSizeString(tv.availableSizes)
+    tvInfos += `${name}\n<br />${price}\n<br />${size}\n\n<br /><br />`
+  }
+
+  document.getElementById("tvs").innerHTML = tvInfos
+
+  return tvInfos
+}
+
+// Test:
+// console.log(getCompleteTvInfosString(inventory))
