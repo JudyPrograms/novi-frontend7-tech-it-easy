@@ -113,6 +113,7 @@ h1 {
 
 .footer {
     background-color: hsl(229, 82%, 17%);
+    opacity: 30%;
     color: hsl(96, 12%, 84%);
     grid-area: E;
     display: flex;

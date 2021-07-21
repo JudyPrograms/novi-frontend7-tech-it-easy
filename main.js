@@ -162,6 +162,10 @@ const inventory = [
   },
 ];
 
+// Om de eerste keer dat de pagina laadt de tvInfos weer te kunnen geven:
+getCompleteTvInfosString(inventory)
+
+
 // Opdracht 1a: Hoeveel exemplaren moeten we nog verkopen? Schrijf een functie die dit berekent.
 
 // const allTvsStock = inventory.map((tv) => {
@@ -180,12 +184,11 @@ for (const tv of inventory) {
 }
 
 // Test:
-console.log(totalStock)
+// console.log(totalStock)
 
 
 // Opdracht 1b: Zorg ervoor dat dit aantal in het rood wordt weergegeven op de pagina
-const stockCount = document.getElementById("stock")
-stockCount.textContent = totalStock
+document.getElementById("stock").textContent = totalStock
 
 // Opdracht 2a: Gebruik een array-methode om een array te maken met alle tv-type namen.
 let allTvTypes = []
@@ -194,37 +197,38 @@ for (const tv of inventory) {
   allTvTypes.push(type)
 }
 
-console.log(allTvTypes)
+// Test:
+// console.log(allTvTypes)
 
 // Opdracht 2b: Gebruik een array-methode om alle tv's te verzamelen (de hele objecten) die volledig uitverkocht zijn.
 function getSoldOutObjects (objectList) {
   const tvsSoldOut = objectList.filter((tv) => {
     return (tv.originalStock === tv.sold)
   })
-  const tvInfos = getTvInfos(tvsSoldOut)
+  const tvInfos = getCompleteTvInfosString(tvsSoldOut)
 
-  const allTvStrings = document.getElementById("tvs")
-  allTvStrings.innerHTML = tvInfos
+  document.getElementById("tvs").innerHTML = tvInfos
 
   return tvInfos
 }
 
-console.log(getSoldOutObjects(inventory))
+// Test:
+// console.log(getSoldOutObjects(inventory))
 
 // Opdracht 2c: Gebruik een array-methode om alle tv's te verzamelen (de hele objecten) die over AmbiLight beschikken.
 function getAmbilightObjects (objectList) {
   const tvsAmbi = objectList.filter((tv) => {
     return (tv.options.ambiLight === true)
   })
-  const tvInfos = getTvInfos(tvsAmbi)
+  const tvInfos = getCompleteTvInfosString(tvsAmbi)
 
-  const allTvStrings = document.getElementById("tvs")
-  allTvStrings.innerHTML = tvInfos
+  document.getElementById("tvs").innerHTML = tvInfos
 
   return tvInfos
 }
 
-console.log(getAmbilightObjects(inventory))
+// Test:
+// console.log(getAmbilightObjects(inventory))
 
 // Opdracht 2d: Schrijf een functie die alle tv's van laagste naar hoogste prijs sorteert.
 function getObjectsSortedbyPrice (objectList) {
@@ -232,14 +236,15 @@ function getObjectsSortedbyPrice (objectList) {
     return a.price - b.price
   })
 
-  const tvInfos = getTvInfos(sortedList)
+  const tvInfos = getCompleteTvInfosString(sortedList)
 
-  const allTvStrings = document.getElementById("tvs")
-  allTvStrings.innerHTML = tvInfos
+  document.getElementById("tvs").innerHTML = tvInfos
 
   return tvInfos
 }
-console.log(getObjectsSortedbyPrice(inventory))
+
+// Test:
+// console.log(getObjectsSortedbyPrice(inventory))
 
 // Opdracht 3a: Wat is onze doel-opbrengst? Bereken wat de totale opbrengst is, als we alle exemplaren van ieder type
 // zouden verkopen. Geef dit in het blauw weer op de pagina.
@@ -247,37 +252,33 @@ let totalExpectedRevenue = 0
 for (const tv of inventory) {
   totalExpectedRevenue += tv.price * ( tv.originalStock - tv.sold)
 }
-const expectedRevenue = document.getElementById("revenue-goal")
-expectedRevenue.textContent = totalExpectedRevenue.toLocaleString("nl-NL", {
+document.getElementById("revenue-goal").textContent = totalExpectedRevenue.toLocaleString("nl-NL", {
   style: 'currency',
   currency: 'EUR'
 })
 
+// Opdracht 3b: Hoeveel hebben we tot nu toe verdient? Bereken hoeveel we tot nu toe verdient hebben met het aantal
+// verkochte tv's. Geef dit weer in het groen weer op de pagi
 let totalCurrentRevenue = 0
 for (const tv of inventory) {
   totalCurrentRevenue += tv.price * tv.sold
 }
 
-// Opdracht 3b: Hoeveel hebben we tot nu toe verdient? Bereken hoeveel we tot nu toe verdient hebben met het aantal
-// verkochte tv's. Geef dit weer in het groen weer op de pagi
-const currentRevenue = document.getElementById("revenue-now")
-currentRevenue.textContent = totalCurrentRevenue.toLocaleString("nl-NL", {
+document.getElementById("revenue-now").textContent = totalCurrentRevenue.toLocaleString("nl-NL", {
   style: 'currency',
   currency: 'EUR'
 })
 
 // Geef de type-namen van twee tv's weer op de pagina. Welke tv's dat precies zijn, maakt niet zoveel uit. Voor nu
 // betekent dit dat je het appenden van de nodes twee keer moet uitschrijven, dat is niet erg!
-const tv1 = document.getElementById("tv1")
-tv1.textContent = inventory[0].type
-const tv2 = document.getElementById("tv2")
-tv2.textContent = inventory[1].type
+document.getElementById("tv1").textContent = inventory[0].type
+document.getElementById("tv2").textContent = inventory[1].type
 
 // Opdracht 5a: Zorg ervoor dat er een string wordt gegenereerd voor de naam van een tv. Maak een functie die één
 // tv-object als parameter verwacht en de naam op de volgende manier samenvoegt: [merk] [type] - [naam] zoals
 // Philips 43PUS6504/12 - 4K TV of NIKKEI NH3216SMART - HD smart TV. Zorg ervoor dat je deze functie voor iedere tv
 // zou kunnen gebruiken.
-function getTvString (tvObject) {
+function getTvNameString (tvObject) {
   return `${tvObject.brand} ${tvObject.type} - ${tvObject.name}`
 }
 
@@ -309,24 +310,19 @@ function getTvSizeString (sizes) {
 // niet acht keer opnieuw schrijven, want nu zijn het 8 tv's, maar in de toekomst misschien wel 200! Gebruik in deze
 // functie de voorgaande functies die je hebt geschreven, om onderdelen van de data te formatten. Deze
 // "tv-generator-functie" verwacht één parameter: de volledige array met tv-objecten. Vergeet 'm niet aan te roepen!
-function getTvInfos (tvObjects) {
+function getCompleteTvInfosString (tvObjects) {
   let tvInfos = ""
   for (const tv of tvObjects) {
-    const name = getTvString(tv)
+    const name = getTvNameString(tv)
     const price = getTvPriceString(tv.price)
     const size = getTvSizeString(tv.availableSizes)
     tvInfos += `${name}\n<br />${price}\n<br />${size}\n\n<br /><br />`
   }
 
-  const allTvStrings = document.getElementById("tvs")
-  allTvStrings.innerHTML = tvInfos
+  document.getElementById("tvs").innerHTML = tvInfos
 
   return tvInfos
 }
 
-console.log(getTvInfos(inventory))
-
-// const tvInfos = getTvInfos(inventory)
-//
-// const allTvStrings = document.getElementById("tvs")
-// allTvStrings.innerHTML = tvInfos
+// Test:
+// console.log(getCompleteTvInfosString(inventory))
